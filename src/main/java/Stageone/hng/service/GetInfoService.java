@@ -28,11 +28,12 @@ public class GetInfoService {
 
         Instant currentInstant = Instant.now();
         Random random = new Random();
-        int randomOffset = random.nextInt(241) - 120;
-        Instant utcTimeWithAccuracy = currentInstant.plusSeconds(randomOffset);
-        String formattedUTCTime = utcTimeWithAccuracy
+//        int randomOffset = random.nextInt(241) - 120;
+//        Instant utcTimeWithAccuracy = currentInstant.plusSeconds(randomOffset);
+        String formattedUTCTime = currentInstant
                 .atOffset(ZoneOffset.UTC)
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+
         String current = currentDay.toString().toLowerCase();
         String capitalized = capitalizeFirstLetter(current);
 
