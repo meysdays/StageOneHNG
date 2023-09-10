@@ -13,6 +13,14 @@ import java.util.Random;
 @Service
 public class GetInfoService {
 
+    public static String capitalizeFirstLetter(String input) {
+        if (input.isEmpty()) {
+            return input;
+        }
+        return Character.toUpperCase(input.charAt(0)) + input.substring(1);
+    }
+
+
     public Response getInfoParam(String slack_name, String track){
         DayOfWeek currentDay = LocalDateTime.now().getDayOfWeek();
         String githubRepoUrl = "https://github.com/meysdays/StageOneHNG";
@@ -22,12 +30,16 @@ public class GetInfoService {
         Random random = new Random();
         int randomOffset = random.nextInt(241) - 120;
         Instant utcTimeWithAccuracy = currentInstant.plusSeconds(randomOffset);
-        LocalDateTime utcLocalDateTime = utcTimeWithAccuracy.atOffset(ZoneOffset.UTC).toLocalDateTime();
+        String formattedUTCTime = utcTimeWithAccuracy
+                .atOffset(ZoneOffset.UTC)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+        String current = currentDay.toString().toLowerCase();
+        String capitalized = capitalizeFirstLetter(current);
 
         Response resp = new Response(
                 slack_name,
-                currentDay.toString(),
-                utcLocalDateTime.toString(),
+                capitalized,
+                formattedUTCTime.toString(),
                 track,
                 githubFileUrl,
                 githubRepoUrl,
